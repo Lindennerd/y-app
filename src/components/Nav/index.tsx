@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaPlus } from "react-icons/fa";
+import { Button } from "../base";
 import { Auth } from "./Auth";
 
 export const Nav = () => {
@@ -10,7 +12,10 @@ export const Nav = () => {
           <Image src={"/y-logo-2.png"} alt="Logo" width={62} height={62} />
         </Link>
       </div>
-      <div>
+      <div className="flex gap-2">
+        <Button>
+          <FaPlus />
+        </Button>
         <Auth />
       </div>
     </nav>
