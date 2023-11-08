@@ -1,6 +1,6 @@
 import { TextArea } from "~/components/base";
+import { MIN_CONTENT_LENGTH } from "~/constants";
 
-export const MIN_CONTENT_LENGTH = 300;
 export interface PostBodyProps {
   body: string;
   setBody: (body: string) => void;

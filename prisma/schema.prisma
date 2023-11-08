@@ -65,7 +65,9 @@ model Like {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     postId    Int
+    userId    String
     post      Post     @relation(fields: [postId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
 }
 
 model Reference {
@@ -116,6 +118,7 @@ model User {
     posts         Post[]
     followers     Follower[]
     following     Following[]
+    likes         Like[]
 }
 
 model Follower {

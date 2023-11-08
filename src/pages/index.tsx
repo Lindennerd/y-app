@@ -1,12 +1,13 @@
 import Head from "next/head";
 import { PostForm, PostsList } from "~/components/Post";
 import { LoadingSkeleton } from "~/components/base/LoadingSkeleton";
+import { POSTS_LIMIT } from "~/constants";
 import { api } from "~/utils/api";
 
 export default function Home() {
   const { data, isLoading } = api.post.getLatest.useInfiniteQuery(
     {
-      limit: 10,
+      limit: POSTS_LIMIT,
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor as number,

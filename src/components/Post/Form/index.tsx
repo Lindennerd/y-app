@@ -1,9 +1,10 @@
 import { type Post, type Reference } from "@prisma/client";
 import { useState, type FormEvent } from "react";
 import { Button, Input } from "~/components/base";
+import { MIN_CONTENT_LENGTH } from "~/constants";
 import { type CreatePost } from "~/server/api/routers/post/types";
 import { api } from "~/utils/api";
-import { MIN_CONTENT_LENGTH, PostBody } from "./PostBody";
+import { PostBody } from "./PostBody";
 import { References } from "./References";
 
 export interface PostFormProps {
