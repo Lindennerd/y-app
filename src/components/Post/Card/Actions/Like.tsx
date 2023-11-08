@@ -15,20 +15,34 @@ export const LikeButton = (props: LikeProps) => {
   const { data: session } = useSession();
   const utils = api.useUtils();
 
+  const optimisticLike: Like = {
+    id: Math.random() * 1000,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    postId: props.postId,
+    userId: session?.user.id ?? "",
+  };
+
   const { mutate: likeMutation } = api.like.like.useMutation({
     onMutate: () => {
       if (!session) return;
+      utils.post.getPost.setData({ id: props.postId }, (data) => {
+        if (!data) return data;
+        if (data.likes.some((like) => like.userId === session.user.id))
+          return {
+            ...data,
+            likes: data.likes.filter((like) => like.userId !== session.user.id),
+          };
+
+        return {
+          ...data,
+          likes: [...data.likes, optimisticLike],
+        };
+      });
+
       utils.post.getLatest.setInfiniteData({ limit: POSTS_LIMIT }, (data) => ({
         pageParams: data!.pageParams,
         pages: data!.pages.map((page) => {
-          const optimisticLike: Like = {
-            id: Math.random() * 1000,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            postId: props.postId,
-            userId: session.user.id,
-          };
-
           return {
             ...page,
             posts: page.posts.map((post) => {

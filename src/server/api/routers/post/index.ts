@@ -62,16 +62,24 @@ export const postRouter = createTRPCRouter({
       const post = await ctx.db.post.findFirst({
         where: { id: input.id },
         include: {
-          createdBy: {
-            select: {
-              name: true,
-              image: true,
-            },
-          },
+          references: true,
+          tags: true,
           likes: true,
           comments: true,
-          tags: true,
-          references: true,
+          createdBy: {
+            include: {
+              following: true,
+              accounts: {
+                select: {
+                  user: {
+                    select: {
+                      image: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       });
 

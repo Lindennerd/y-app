@@ -26,9 +26,7 @@ export default function Home() {
       {isLoading && <LoadingSkeleton />}
       {!isLoading &&
         data?.pages.map((page, index) => (
-          <>
-            <PostsList key={index} posts={page.posts} />
-          </>
+          <PostsList key={index} posts={page.posts} />
         ))}
     </>
   );
