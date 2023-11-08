@@ -19,12 +19,16 @@ export interface PostFormValidationErrors {
 export const PostForm = (props: PostFormProps) => {
   const defaultValue: CreatePost = {
     title: "",
+    subtitle: "",
     body: "",
     references: [],
   };
 
-  const { mutate: editMutation } = api.post.edit.useMutation();
-  const { mutate: createMutation } = api.post.create.useMutation();
+  const utils = api.useUtils();
+  const { mutate: editMutation, isLoading: editLoading } =
+    api.post.edit.useMutation();
+  const { mutate: createMutation, isLoading: createLoading } =
+    api.post.create.useMutation();
 
   const [post, setPost] = useState<
     CreatePost | (Post & { references: Reference[] })
@@ -35,6 +39,7 @@ export const PostForm = (props: PostFormProps) => {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
+    setValidationErrors({});
 
     if (post.title === "") {
       setValidationErrors({
@@ -55,6 +60,7 @@ export const PostForm = (props: PostFormProps) => {
     }
 
     if (Object.keys(validationErrors).length > 0) {
+      console.error(validationErrors);
       return;
     }
 
@@ -64,6 +70,10 @@ export const PostForm = (props: PostFormProps) => {
         {
           onSuccess: () => {
             setPost(defaultValue);
+            utils.post
+              .invalidate()
+              .then(() => utils.post.getLatest.refetch())
+              .catch(console.error);
           },
         },
       );
@@ -71,6 +81,10 @@ export const PostForm = (props: PostFormProps) => {
       createMutation(post, {
         onSuccess: () => {
           setPost(defaultValue);
+          utils.post
+            .invalidate()
+            .then(() => utils.post.getLatest.refetch())
+            .catch(console.error);
         },
       });
     }
@@ -107,7 +121,9 @@ export const PostForm = (props: PostFormProps) => {
       />
       <div className="flex justify-end gap-2">
         <Button>Limpar</Button>
-        <Button type="submit">Enviar</Button>
+        <Button type="submit" disabled={createLoading || editLoading}>
+          {createLoading || editLoading ? "Enviando..." : "Enviar"}
+        </Button>
       </div>
     </form>
   );
