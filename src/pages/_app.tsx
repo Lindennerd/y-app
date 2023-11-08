@@ -14,7 +14,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Nav />
-      <Component {...pageProps} />
+      <main className="max-h-screen overflow-auto">
+        <section className="mx-auto mb-20 flex max-w-screen-lg flex-row flex-wrap gap-4 rounded-md  p-2">
+          <Component {...pageProps} />
+        </section>
+      </main>
     </SessionProvider>
   );
 };

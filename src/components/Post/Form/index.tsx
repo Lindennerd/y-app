@@ -76,7 +76,7 @@ export const PostForm = (props: PostFormProps) => {
   }
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+    <form className="flex w-full flex-col gap-2" onSubmit={handleSubmit}>
       <Input
         error={validationErrors.title}
         name="title"
@@ -84,6 +84,14 @@ export const PostForm = (props: PostFormProps) => {
         placeholder="Título"
         value={post.title as string}
         onChange={(e) => setPost({ ...post, title: e.target.value })}
+      />
+      <Input
+        error={validationErrors.title}
+        name="subtitle"
+        type="text"
+        placeholder="Sub Título"
+        value={post.subtitle as string}
+        onChange={(e) => setPost({ ...post, subtitle: e.target.value })}
       />
       <PostBody
         error={validationErrors.body}
@@ -96,7 +104,10 @@ export const PostForm = (props: PostFormProps) => {
           setPost({ ...post, references: references })
         }
       />
-      <Button type="submit">Enviar</Button>
+      <div className="flex justify-end gap-2">
+        <Button>Limpar</Button>
+        <Button type="submit">Enviar</Button>
+      </div>
     </form>
   );
 };

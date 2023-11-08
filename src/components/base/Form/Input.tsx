@@ -11,7 +11,7 @@ export const Input = (props: InputProps) => {
       {props.label && <label>{props.label}</label>}
       <input
         {...props}
-        className={`rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+        className={`focus:ring-primary-300 rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 ${
           props.className
         } ${props.error ? "border-red-500" : ""}`}
       />

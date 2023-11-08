@@ -1,4 +1,6 @@
+import { type inferProcedureOutput } from "@trpc/server";
 import { z } from "zod";
+import { type postRouter } from ".";
 
 export const referenceSchema = z.object({
   display: z.string().min(1),
@@ -25,6 +27,18 @@ export const updatePostSchema = z.object({
   references: z.array(referenceSchema).optional(),
   tags: z.array(tagSchema).optional(),
 });
+
+export const getLatestSchema = z.object({
+  limit: z.number().min(1).max(100).optional().default(10),
+  cursor: z.number().min(1).optional().nullish(),
+});
+
+export const getPostByIdSchema = z.object({
+  id: z.number().min(1),
+});
+
+export type GetLatestOutput = inferProcedureOutput<typeof postRouter.getLatest>;
+export type QueryPostOutput = inferProcedureOutput<typeof postRouter.getPost>;
 
 export type CreatePost = z.infer<typeof createPostSchema>;
 export type CreateReference = z.infer<typeof referenceSchema>;

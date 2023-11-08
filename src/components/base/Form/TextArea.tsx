@@ -9,7 +9,7 @@ export const TextArea = (props: TextAreaProps) => {
     <div className="flex flex-col">
       {props.label && <label>{props.label}</label>}
       <textarea
-        className={`rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+        className={`focus:ring-primary-200 rounded-md border border-gray-300 p-2 focus:outline-none focus:ring-2 ${
           props.error ? "border-red-500" : ""
         }`}
         {...props}
