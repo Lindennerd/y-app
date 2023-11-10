@@ -11,24 +11,34 @@ export interface PostCardProps {
 export const PostCard = (props: PostCardProps) => {
   if (!props.post) return <></>;
   return (
-    <div className="border-primary-200 rounded border">
-      <div className="flex flex-col gap-1">
-        <Link
-          className="w-full cursor-pointer py-2 text-center text-xl font-bold hover:underline"
-          href={`/post/${props.post.id}`}
-        >
-          {props.post?.title}
-        </Link>
-        <div className="w-full text-center text-xl font-thin">
-          {props.post.subtitle}
+    <>
+      <div className="border-primary-200 rounded border">
+        <div className="flex flex-col gap-1">
+          <Link
+            className="w-full cursor-pointer py-2 text-center text-xl font-bold hover:underline"
+            href={`/post/${props.post.id}`}
+          >
+            {props.post?.title}
+          </Link>
+          <div className="w-full text-center text-xl font-thin">
+            {props.post.subtitle}
+          </div>
+          {props.post.responseTo && (
+            <Link
+              href={`/post/${props.post.responseTo.id}`}
+              className="w-full text-center font-bold text-gray-400 hover:underline"
+            >
+              Post em resposta a {props.post.responseTo.title}
+            </Link>
+          )}
+          <div className="mt-2 p-4 text-justify">{props.post?.body}</div>
+          <div className="border-primary-200 flex justify-between border p-2">
+            <PostReferences references={props.post.references} />
+            <PostCardAuthor post={props.post} />
+          </div>
+          <PostCardActions post={props.post} />
         </div>
-        <div className="mt-2 p-4 text-justify">{props.post?.body}</div>
-        <div className="border-primary-200 flex justify-between border p-2">
-          <PostReferences references={props.post.references} />
-          <PostCardAuthor post={props.post} />
-        </div>
-        <PostCardActions post={props.post} />
       </div>
-    </div>
+    </>
   );
 };

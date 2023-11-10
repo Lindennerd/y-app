@@ -9,6 +9,10 @@ import { References } from "./References";
 
 export interface PostFormProps {
   post?: Post & { references: Reference[] };
+  responseTo?: {
+    id: number;
+    title: string;
+  };
 }
 
 export interface PostFormValidationErrors {
@@ -22,6 +26,7 @@ export const PostForm = (props: PostFormProps) => {
     subtitle: "",
     body: "",
     references: [],
+    responseTo: props.responseTo?.id,
   };
 
   const utils = api.useUtils();
@@ -92,6 +97,11 @@ export const PostForm = (props: PostFormProps) => {
 
   return (
     <form className="flex w-full flex-col gap-2" onSubmit={handleSubmit}>
+      {props.responseTo && (
+        <h1 className="w-full text-center text-gray-400">
+          Respondendo para {props.responseTo.title}
+        </h1>
+      )}
       <Input
         error={validationErrors.title}
         name="title"

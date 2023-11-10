@@ -20,10 +20,9 @@ model Post {
     createdBy   User        @relation(fields: [createdById], references: [id])
     createdById String
     references  Reference[]
-    comments    Comment[]
     likes       Like[]
     responses   Post[]      @relation("ReplyToPost")
-    Post        Post?       @relation("ReplyToPost", fields: [postId], references: [id])
+    responseTo  Post?       @relation("ReplyToPost", fields: [postId], references: [id])
     postId      Int?
     tags        PostTags[]
 
@@ -38,18 +37,6 @@ model PostTags {
     tag    Tag  @relation(fields: [tagId], references: [id])
 
     @@unique([postId, tagId])
-}
-
-model Comment {
-    id        Int       @id @default(autoincrement())
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    body      String    @db.Text
-    postId    Int
-    post      Post      @relation(fields: [postId], references: [id])
-    replies   Comment[] @relation("ReplyToComment")
-    Comment   Comment?  @relation("ReplyToComment", fields: [commentId], references: [id])
-    commentId Int?
 }
 
 model Tag {

@@ -1,16 +1,22 @@
 import Head from "next/head";
 import { useParams } from "next/navigation";
+import { useState } from "react";
+import { PostForm } from "~/components/Post";
 import { PostCard } from "~/components/Post/Card";
+import { ResponseList } from "~/components/Post/Response/List";
+import { Button, Modal } from "~/components/base";
 import { LoadingSkeleton } from "~/components/base/LoadingSkeleton";
 import { api } from "~/utils/api";
 
 export default function PostPage() {
-  const { id } = useParams();
-  const { data: post, isLoading } = api.post.getPost.useQuery({
-    id: Number(id),
+  const params = useParams<{ id: string }>();
+  const [open, setOpen] = useState(false);
+
+  const { data: post, isLoading: isLoadingPost } = api.post.getPost.useQuery({
+    id: Number(params?.id),
   });
 
-  if (isLoading) return <LoadingSkeleton />;
+  if (isLoadingPost) return <LoadingSkeleton />;
   if (!post)
     return (
       <div className="flex justify-center">
@@ -25,6 +31,16 @@ export default function PostPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PostCard post={post} />
+      <div className="flex w-full justify-center text-center">
+        <Button className="w-full" onClick={() => setOpen(!open)}>
+          Responder
+        </Button>
+      </div>
+      <ResponseList postId={post.id} />
+
+      <Modal open={open} toggle={(toggle) => setOpen(toggle)}>
+        <PostForm responseTo={{ id: post.id, title: post.title }} />
+      </Modal>
     </>
   );
 }

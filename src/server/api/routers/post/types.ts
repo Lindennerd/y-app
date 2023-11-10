@@ -17,6 +17,7 @@ export const createPostSchema = z.object({
   body: z.string().min(300),
   references: z.array(referenceSchema).optional(),
   tags: z.array(tagSchema).optional(),
+  responseTo: z.number().min(1).optional().nullish(),
 });
 
 export const updatePostSchema = z.object({

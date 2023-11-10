@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import {
   createPostSchema,
@@ -15,6 +16,9 @@ export const postRouter = createTRPCRouter({
           title: input.title,
           subtitle: input.subtitle,
           body: input.body,
+          responseTo: {
+            connect: input.responseTo ? { id: input.responseTo } : undefined,
+          },
           references: {
             createMany: {
               data: input.references?.length
@@ -56,6 +60,7 @@ export const postRouter = createTRPCRouter({
 
       return post;
     }),
+
   getPost: protectedProcedure
     .input(getPostByIdSchema)
     .query(async ({ ctx, input }) => {
@@ -65,7 +70,17 @@ export const postRouter = createTRPCRouter({
           references: true,
           tags: true,
           likes: true,
-          comments: true,
+          responseTo: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+          responses: {
+            select: {
+              id: true,
+            },
+          },
           createdBy: {
             include: {
               following: true,
@@ -108,7 +123,17 @@ export const postRouter = createTRPCRouter({
           references: true,
           tags: true,
           likes: true,
-          comments: true,
+          responseTo: {
+            select: {
+              id: true,
+              title: true,
+            },
+          },
+          responses: {
+            select: {
+              id: true,
+            },
+          },
           createdBy: {
             include: {
               following: true,
@@ -149,5 +174,49 @@ export const postRouter = createTRPCRouter({
         posts: posts.slice(0, input.limit),
         nextCursor: posts.length > input.limit ? posts[input.limit]?.id : null,
       };
+    }),
+
+  getResponses: protectedProcedure
+    .input(getPostByIdSchema)
+    .query(async ({ ctx, input }) => {
+      const post = await ctx.db.post.findFirst({
+        where: { id: input.id },
+        include: {
+          responses: {
+            include: {
+              references: true,
+              tags: true,
+              likes: true,
+              responseTo: {
+                select: {
+                  id: true,
+                  title: true,
+                },
+              },
+              responses: {
+                select: {
+                  id: true,
+                },
+              },
+              createdBy: {
+                include: {
+                  following: true,
+                  accounts: {
+                    select: {
+                      user: {
+                        select: {
+                          image: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return post?.responses ?? [];
     }),
 });
