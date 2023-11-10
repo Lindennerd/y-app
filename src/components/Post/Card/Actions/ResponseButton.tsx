@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { FaComment } from "react-icons/fa";
-import { Modal } from "~/components/base";
-import { PostForm } from "../../Form";
+import { usePostForm } from "~/context/PostForm.Context";
 import { ButtonAction } from "./ButtonAction";
 
 export interface ResponseButtonProps {
@@ -11,17 +9,24 @@ export interface ResponseButtonProps {
 }
 
 export const ResponseButton = (props: ResponseButtonProps) => {
-  const [open, setOpen] = useState(false);
+  const { setProps } = usePostForm();
+
+  function handleReply() {
+    setProps({
+      openModal: true,
+      responseTo: {
+        id: props.postId,
+        title: props.postTitle,
+      },
+    });
+  }
 
   return (
     <>
-      <ButtonAction onClick={() => setOpen(!open)}>
+      <ButtonAction onClick={handleReply}>
         <FaComment className="mt-1" />
         <span>{props.responses.length}</span>
       </ButtonAction>
-      <Modal open={open} toggle={(toggle) => setOpen(toggle)}>
-        <PostForm responseTo={{ id: props.postId, title: props.postTitle }} />
-      </Modal>
     </>
   );
 };

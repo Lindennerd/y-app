@@ -1,10 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
+import { usePostForm } from "~/context/PostForm.Context";
 import { Button } from "../base";
 import { Auth } from "./Auth";
 
 export const Nav = () => {
+  const { setProps } = usePostForm();
+
+  function handleAddPost() {
+    setProps({
+      openModal: true,
+    });
+  }
+
   return (
     <nav className="from-primary-500 to-primary-700 sticky right-0 top-0 flex flex-wrap items-center justify-between bg-gradient-to-br px-6 shadow-sm">
       <div className="flex flex-shrink-0 items-center text-white">
@@ -19,7 +28,7 @@ export const Nav = () => {
         </Link>
       </div>
       <div className="flex gap-2">
-        <Button>
+        <Button onClick={handleAddPost}>
           <FaPlus />
         </Button>
         <Auth />
