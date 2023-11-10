@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import Head from "next/head";
 import { PostForm, PostsList } from "~/components/Post";
 import { LoadingSkeleton } from "~/components/base/LoadingSkeleton";
@@ -10,7 +11,7 @@ export default function Home() {
       limit: POSTS_LIMIT,
     },
     {
-      getNextPageParam: (lastPage) => lastPage.nextCursor as number,
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
 

@@ -57,7 +57,7 @@ export const PostForm = (props: PostFormProps) => {
       setValidationErrors({ ...validationErrors, body: "Corpo é obrigatório" });
     }
 
-    if ((post.body as string).length < MIN_CONTENT_LENGTH) {
+    if (post.body.length < MIN_CONTENT_LENGTH) {
       setValidationErrors({
         ...validationErrors,
         body: `Corpo deve ter pelo menos ${MIN_CONTENT_LENGTH} caracteres`,
@@ -107,7 +107,7 @@ export const PostForm = (props: PostFormProps) => {
         name="title"
         type="text"
         placeholder="Título"
-        value={post.title as string}
+        value={post.title}
         onChange={(e) => setPost({ ...post, title: e.target.value })}
       />
       <Input
@@ -115,12 +115,12 @@ export const PostForm = (props: PostFormProps) => {
         name="subtitle"
         type="text"
         placeholder="Sub Título"
-        value={post.subtitle as string}
+        value={post.subtitle ?? ""}
         onChange={(e) => setPost({ ...post, subtitle: e.target.value })}
       />
       <PostBody
         error={validationErrors.body}
-        body={post.body as string}
+        body={post.body}
         setBody={(body) => setPost({ ...post, body: body })}
       />
       <References

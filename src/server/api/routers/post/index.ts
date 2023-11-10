@@ -156,8 +156,7 @@ export const postRouter = createTRPCRouter({
                 following: {
                   every: {
                     id: {
-                      in:
-                        user?.following.map((user) => user.id as number) ?? [],
+                      in: user?.following.map((user) => user.id) ?? [],
                     },
                   },
                 },
