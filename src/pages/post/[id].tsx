@@ -11,7 +11,7 @@ export default function PostPage() {
   const params = useParams<{ id: string }>();
   const { setProps } = usePostForm();
 
-  const { data: post, isLoading: isLoadingPost } = api.post.getPost.useQuery({
+  const { data: post, isLoading: isLoadingPost } = api.post.getById.useQuery({
     id: Number(params?.id),
   });
 

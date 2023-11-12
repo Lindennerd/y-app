@@ -39,7 +39,7 @@ export const getPostByIdSchema = z.object({
 });
 
 export type GetLatestOutput = inferProcedureOutput<typeof postRouter.getLatest>;
-export type QueryPostOutput = inferProcedureOutput<typeof postRouter.getPost>;
+export type QueryPostOutput = inferProcedureOutput<typeof postRouter.getById>;
 
 export type CreatePost = z.infer<typeof createPostSchema>;
 export type CreateReference = z.infer<typeof referenceSchema>;
