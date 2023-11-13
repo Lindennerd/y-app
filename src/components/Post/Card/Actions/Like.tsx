@@ -26,7 +26,7 @@ export const LikeButton = (props: LikeProps) => {
   const { mutate: likeMutation } = api.like.like.useMutation({
     onMutate: () => {
       if (!session) return;
-      utils.post.getPost.setData({ id: props.postId }, (data) => {
+      utils.post.getById.setData({ id: props.postId }, (data) => {
         if (!data) return data;
         if (data.likes.some((like) => like.userId === session.user.id))
           return {
