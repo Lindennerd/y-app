@@ -1,5 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../base";
 
@@ -32,9 +33,12 @@ export const Auth = () => {
       >
         <ul className="flex w-24 flex-col text-white">
           <li className="hover:bg-primary-700 cursor-pointer px-4 py-2">
-            <a className="cursor-pointer" onClick={() => signOut()}>
-              Sair
-            </a>
+            <Link
+              className="cursor-pointer"
+              href={`/profile/${session.user.email}`}
+            >
+              Perfil
+            </Link>
           </li>
           <li className="hover:bg-primary-700 cursor-pointer px-4 py-2">
             <a className="cursor-pointer" onClick={() => signOut()}>

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { PostForm, PostsList } from "~/components/Post";
 import { LoadingSkeleton } from "~/components/base/LoadingSkeleton";
@@ -6,6 +7,7 @@ import { POSTS_LIMIT } from "~/constants";
 import { api } from "~/utils/api";
 
 export default function Home() {
+  const { status } = useSession();
   const { data, isLoading } = api.post.getLatest.useInfiniteQuery(
     {
       limit: POSTS_LIMIT,
@@ -23,7 +25,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PostForm />
+      {status === "authenticated" && <PostForm />}
       {isLoading && <LoadingSkeleton />}
       {!isLoading &&
         data?.pages.map((page, index) => (

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { type PostCardProps } from ".";
 
 export const PostCardAuthor = (props: PostCardProps) => {
@@ -14,13 +15,15 @@ export const PostCardAuthor = (props: PostCardProps) => {
         </span>
       </div>
       {props.post.createdBy.image && (
-        <Image
-          src={props.post?.createdBy.image}
-          alt="author image"
-          className="rounded-full"
-          width={45}
-          height={45}
-        />
+        <Link href={`/profile/${props.post.createdBy.email}`}>
+          <Image
+            src={props.post?.createdBy.image}
+            alt="author image"
+            className="rounded-full"
+            width={45}
+            height={45}
+          />
+        </Link>
       )}
     </div>
   );

@@ -13,7 +13,7 @@ export const tagSchema = z.object({
 
 export const createPostSchema = z.object({
   title: z.string().min(1),
-  subtitle: z.string().min(1).optional().nullish(),
+  subtitle: z.string().optional().nullish(),
   body: z.string().min(300),
   references: z.array(referenceSchema).optional(),
   tags: z.array(tagSchema).optional(),
