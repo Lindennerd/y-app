@@ -10,6 +10,8 @@ export const getProfile = publicProcedure
     }),
   )
   .query(async ({ ctx, input }) => {
+    const user = ctx.session?.user;
+
     return await ctx.db.user.findFirst({
       where: { email: input.email },
       include: {
@@ -19,6 +21,12 @@ export const getProfile = publicProcedure
           take: input.limit + 1,
           cursor: input.cursor ? { id: input.cursor } : undefined,
           orderBy: { createdAt: "desc" },
+          where: {
+            OR: [
+              { draft: false },
+              { AND: [{ draft: true }, { createdById: user?.id }] },
+            ],
+          },
           include: {
             references: true,
             tags: true,
