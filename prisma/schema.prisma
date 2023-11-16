@@ -25,6 +25,7 @@ model Post {
     responseTo  Post?       @relation("ReplyToPost", fields: [postId], references: [id])
     postId      Int?
     tags        PostTags[]
+    draft       Boolean     @default(true)
 
     @@index([title])
 }

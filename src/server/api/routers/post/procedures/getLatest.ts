@@ -52,6 +52,7 @@ export const getLatest = publicProcedure
         },
       },
       where: {
+        draft: false,
         createdBy: {
           OR: [
             {

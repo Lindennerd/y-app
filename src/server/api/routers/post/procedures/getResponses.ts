@@ -8,6 +8,7 @@ export const getResponses = publicProcedure
       where: { id: input.id },
       include: {
         responses: {
+          where: { draft: false },
           include: {
             references: true,
             tags: true,

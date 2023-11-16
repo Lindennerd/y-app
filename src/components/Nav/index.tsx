@@ -15,7 +15,7 @@ export const Nav = () => {
   }
 
   return (
-    <nav className="from-primary-500 to-primary-700 sticky right-0 top-0 flex flex-wrap items-center justify-between bg-gradient-to-br px-6 shadow-sm">
+    <nav className="sticky right-0 top-0 flex flex-wrap items-center justify-between bg-gradient-to-br from-primary-500 to-primary-700 px-6 shadow-sm">
       <div className="flex flex-shrink-0 items-center text-white">
         <Link href="/">
           <Image
@@ -28,7 +28,7 @@ export const Nav = () => {
         </Link>
       </div>
       <div className="flex gap-2">
-        <Button onClick={handleAddPost}>
+        <Button className="mt-2" onClick={handleAddPost}>
           <FaPlus />
         </Button>
         <Auth />

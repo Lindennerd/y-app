@@ -18,6 +18,7 @@ export const createPostSchema = z.object({
   references: z.array(referenceSchema).optional(),
   tags: z.array(tagSchema).optional(),
   responseTo: z.number().min(1).optional().nullish(),
+  draft: z.boolean().optional().default(false),
 });
 
 export const updatePostSchema = z.object({

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useParams } from "next/navigation";
-import { PostsList } from "~/components/Post";
 import { ProfileHeader } from "~/components/Profile/ProfileHeader";
+import { ProfilePosts } from "~/components/Profile/ProfilePosts";
 import { LoadingSkeleton } from "~/components/base/LoadingSkeleton";
 import { api } from "~/utils/api";
 
@@ -25,9 +25,9 @@ export default function ProfilePage() {
           profile.pages.map((page) => {
             if (!page) return null;
             return (
-              <div key={page.id} className="flex flex-col gap-2">
+              <div key={page.id} className="flex w-full flex-col gap-2">
                 <ProfileHeader {...page} />
-                <PostsList posts={page.posts} />
+                <ProfilePosts posts={page.posts} />
               </div>
             );
           })}

@@ -9,6 +9,7 @@ export const create = protectedProcedure
         title: input.title,
         subtitle: input.subtitle,
         body: input.body,
+        draft: input.draft,
         responseTo: {
           connect: input.responseTo ? { id: input.responseTo } : undefined,
         },

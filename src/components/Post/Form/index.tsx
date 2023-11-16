@@ -1,5 +1,5 @@
 import { type Post, type Reference } from "@prisma/client";
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { Button, Input } from "~/components/base";
 import { MIN_CONTENT_LENGTH } from "~/constants";
 import { type CreatePost } from "~/server/api/routers/post/types";
@@ -27,6 +27,7 @@ export const PostForm = (props: PostFormProps) => {
     body: "",
     references: [],
     responseTo: props.responseTo?.id,
+    draft: true,
   };
 
   const utils = api.useUtils();
@@ -42,8 +43,7 @@ export const PostForm = (props: PostFormProps) => {
   const [validationErrors, setValidationErrors] =
     useState<PostFormValidationErrors>({});
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
+  function mutatePost() {
     setValidationErrors({});
 
     if (post.title === "") {
@@ -95,6 +95,24 @@ export const PostForm = (props: PostFormProps) => {
     }
   }
 
+  function handleSave(event: React.SyntheticEvent<HTMLButtonElement>): void {
+    event.preventDefault();
+    mutatePost();
+  }
+
+  function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    mutatePost();
+  }
+
+  function handleSaveAndPublish(
+    event: React.SyntheticEvent<HTMLButtonElement>,
+  ): void {
+    event.preventDefault();
+    setPost({ ...post, draft: false });
+    mutatePost();
+  }
+
   return (
     <form className="flex w-full flex-col gap-2" onSubmit={handleSubmit}>
       {props.responseTo && (
@@ -131,8 +149,19 @@ export const PostForm = (props: PostFormProps) => {
       />
       <div className="flex justify-end gap-2">
         <Button>Limpar</Button>
-        <Button type="submit" disabled={createLoading || editLoading}>
-          {createLoading || editLoading ? "Enviando..." : "Enviar"}
+        <Button
+          type="button"
+          disabled={createLoading || editLoading}
+          onClick={handleSave}
+        >
+          {createLoading || editLoading ? "Enviando..." : "Salvar"}
+        </Button>
+        <Button
+          type="button"
+          disabled={createLoading || editLoading}
+          onClick={handleSaveAndPublish}
+        >
+          {createLoading || editLoading ? "Enviando..." : "Salvar e Publicar"}
         </Button>
       </div>
     </form>
